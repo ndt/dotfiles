@@ -2,3 +2,12 @@
 
 echo "Updating the yadm repo origin URL"
 yadm remote set-url origin "git@github.com:ndt/dotfiles.git"
+
+echo "Checking for ZSH Antigen"
+if [ ! -d "~/.zsh/" ]; then
+	mkdir ~/.zsh
+	if [ ! -f "~/.zsh/antigen.zsh" ]; then
+		echo "Installing Antigen"
+		curl -L git.io/antigen > ~/.zsh/antigen.zsh
+	fi
+fi

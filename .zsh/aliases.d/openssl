@@ -1,0 +1,3 @@
+alias crt="openssl x509 -text -noout -in"
+alias req="openssl req -text -noout -in"
+alias crl="openssl crl -text -noout -in"

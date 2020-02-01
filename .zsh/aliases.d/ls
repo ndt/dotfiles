@@ -1,0 +1,4 @@
+alias lsbig='ls -Slh | head'
+alias lssmall='ls -Slhr | head'
+alias lsnew='ls -tlh | head'
+alias lsold='ls -tlhr | head'
