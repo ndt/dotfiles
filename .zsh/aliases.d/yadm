@@ -1,1 +1,1 @@
-alias yadm = 'yadm -Y $HOME/.config/yadm'
+alias yadm='yadm -Y $HOME/.config/yadm'
