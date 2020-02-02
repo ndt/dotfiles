@@ -4,8 +4,13 @@ source ~/.zsh/antigen.zsh
 antigen use oh-my-zsh
 
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
-antigen bundle 'colored-man-pages'
+antigen bundle 'ansible'
+#antigen bundle 'colored-man-pages'
+antigen bundle 'fd'
+antigen bundle 'fz'
 antigen bundle 'git'
+antigen bundle 'github'
+antigen bundle 'httpie'
 antigen bundle 'rsync'
 antigen bundle 'screen'
 antigen bundle 'sudo'
