@@ -45,6 +45,7 @@ antigen apply
 
 source ~/.zsh/options
 source ~/.zsh/aliases
+source ~/.zsh/dircolors
 
 neofetch
 

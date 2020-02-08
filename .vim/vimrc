@@ -139,6 +139,12 @@ set backupdir=~/.cache/vim/backup//
 set directory=~/.cache/vim/swap//
 
 "
+" Calendar {{{1
+let g:calendar_number_of_month = 6
+let g:calendar_options = 'fdc=0 nonu nornu'
+
+
+"
 " vimwiki {{{1
 let g:vimwiki_list = [{'path': '~/vimwiki/', 'auto_tags': 1}]
 let g:tagbar_type_vimwiki = {
@@ -167,3 +173,8 @@ function! ToggleCalendar()
   end
 endfunction
 " :autocmd FileType vimwiki map c :call ToggleCalendar()
+
+nnoremap <leader>t<leader>d :-1read $HOME/vimwiki/templates/diary.tmpl.wiki<C-R>
+
+iab <expr> #d strftime('%F')
+
