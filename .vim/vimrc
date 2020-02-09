@@ -2,8 +2,8 @@
 
 " download vim-plug if missing
 if empty(glob("~/.vim/autoload/plug.vim"))
-  silent! execute '!curl --create-dirs -fsSLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * silent! PlugInstall
+	silent! execute '!curl --create-dirs -fsSLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
+	autocmd VimEnter * silent! PlugInstall
 endif
 
 " Home
@@ -20,24 +20,26 @@ endif
 " Plugin loading {{{2
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin(s:ndt_home."/plugged")
-  Plug 'tpope/vim-sensible'
-  Plug 'tpope/vim-eunuch'
-  Plug 'tpope/vim-repeat'
-  Plug 'tpope/vim-surround'
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
 
-  Plug 'majutsushi/tagbar'
-  Plug 'mbbill/undotree'
+Plug 'majutsushi/tagbar'
+Plug 'mbbill/undotree'
 
-  Plug 'ryanoasis/vim-devicons'
-  Plug 'vim-airline/vim-airline'
-  Plug 'vim-airline/vim-airline-themes'
-  Plug 'lifepillar/vim-solarized8'
+Plug 'ryanoasis/vim-devicons'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'lifepillar/vim-solarized8'
 
-  Plug 'mattn/calendar-vim'
-  Plug 'vimwiki/vimwiki'
+Plug 'mattn/calendar-vim'
+Plug 'vimwiki/vimwiki'
 
-  Plug 'pearofducks/ansible-vim'
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'pearofducks/ansible-vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+
+Plug 'takac/vim-hardtime'
 call plug#end()
 
 
@@ -116,22 +118,22 @@ set formatoptions=qrn1
 " 'Last modified: ' can have up to 10 characters before (they are retained).
 " Restores cursor and window position using save_cursor variable.
 function! LastModified()
-  if &modified
-    let save_cursor = getpos(".")
-    let n = min([20, line("$")])
-    keepjumps exe '1,' . n . 's#^\(.\{,10}:Datum:    \).*#\1' .
-          \ strftime('%Y-%m-%d %H:%M') . '#e'
-    call histdel('search', -1)
-    call setpos('.', save_cursor)
-  endif
+	if &modified
+		let save_cursor = getpos(".")
+		let n = min([20, line("$")])
+		keepjumps exe '1,' . n . 's#^\(.\{,10}:Datum:    \).*#\1' .
+					\ strftime('%Y-%m-%d %H:%M') . '#e'
+		call histdel('search', -1)
+		call setpos('.', save_cursor)
+	endif
 endfun
 autocmd BufWritePre * call LastModified()
 
 set backup                  " Backups are nice
 if has('persistent_undo')
-    set undofile                " So is persistent undo
-    set undolevels=1000         " Maximum number of changes that can be undone
-    set undoreload=10000        " Maximum number of lines to save for undo on a buffer reload
+	set undofile                " So is persistent undo
+	set undolevels=1000         " Maximum number of changes that can be undone
+	set undoreload=10000        " Maximum number of lines to save for undo on a buffer reload
 endif
 
 set undodir=~/.cache/vim/undo//
@@ -142,28 +144,33 @@ set directory=~/.cache/vim/swap//
 " vimwiki {{{1
 let g:vimwiki_list = [{'path': '~/vimwiki/', 'auto_tags': 1}]
 let g:tagbar_type_vimwiki = {
-          \   'ctagstype':'vimwiki'
-          \ , 'kinds':['h:header']
-          \ , 'sro':'&&&'
-          \ , 'kind2scope':{'h':'header'}
-          \ , 'sort':0
-          \ , 'ctagsbin':'~/vimwiki/vwtags.py'
-          \ , 'ctagsargs': 'default'
-          \ }
+			\   'ctagstype':'vimwiki'
+			\ , 'kinds':['h:header']
+			\ , 'sro':'&&&'
+			\ , 'kind2scope':{'h':'header'}
+			\ , 'sort':0
+			\ , 'ctagsbin':'~/vimwiki/vwtags.py'
+			\ , 'ctagsargs': 'default'
+			\ }
+
 autocmd FileType vimwiki setlocal ts=4 sts=4 sw=4 noexpandtab
 au BufRead,BufNewFile *.wiki set filetype=vimwiki
 " :autocmd FileType vimwiki map d :VimwikiMakeDiaryNote
 function! ToggleCalendar()
-  execute ":Calendar"
-  if exists("g:calendar_open")
-    if g:calendar_open == 1
-      execute "q"
-      unlet g:calendar_open
-    else
-      g:calendar_open = 1
-    end
-  else
-    let g:calendar_open = 1
-  end
+	execute ":Calendar"
+	if exists("g:calendar_open")
+		if g:calendar_open == 1
+			execute "q"
+			unlet g:calendar_open
+		else
+			g:calendar_open = 1
+		end
+	else
+		let g:calendar_open = 1
+	end
 endfunction
 " :autocmd FileType vimwiki map c :call ToggleCalendar()
+
+" Hard mode
+nnoremap <leader>h <Esc>:call HardTimeToggle()<CR>
+
