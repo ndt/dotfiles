@@ -1,29 +1,25 @@
-" vim: ts=4 sts=4 sw=4 fdm=marker
+"" vim:ts=4:sts=4:sw=4
+"" vim:fdm=expr:fdl=0
+"" vim:fde=getline(v\:lnum)=~'^""'?'>'.(matchend(getline(v\:lnum),'""*')-2)\:'='
 
-" download vim-plug if missing
+"""""""""""
+" Plugins "
+"""""""""""
+
+"" download vim-plug if missing
 if empty(glob("~/.vim/autoload/plug.vim"))
 	silent! execute '!curl --create-dirs -fsSLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
 	autocmd VimEnter * silent! PlugInstall
 endif
 
-" Home
-if has('nvim') && has('win32')
-	let s:ndt_home = "$LOCALAPPDATA/nvim"
-elseif has('nvim')
-	let s:ndt_home = "~/.local/share/nvim"
-else
-	let s:ndt_home = "~/.vim"
-endif
-
-
-"
-" Plugin loading {{{2
+"" load Plugins
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin()
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-speeddating'
 Plug 'junegunn/vim-easy-align'
 Plug 'matze/vim-move'
 
@@ -45,46 +41,51 @@ Plug 'takac/vim-hardtime'
 call plug#end()
 
 
-" Color Scheme {{{
+""""""""""""""""
+"  Appearance  "
+""""""""""""""""
+"" Color Scheme
 set termguicolors
-colorscheme solarized8
 set background=dark
+let g:airline_solarized_bg='dark'
+colorscheme solarized8
+let g:airline_theme='solarized'
+
 highlight clear Normal
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme='solarized'
-let g:airline_solarized_bg='dark'
 
-" Left Column {{{
+"" left editor edge
 set number
 set relativenumber
 set foldcolumn=3
 set numberwidth=5
 set nowrap
 
-" Tab settings {{{
+"" bottom editor edge
+set noshowmode     " disble for plugin vim-airline
+
+"" content area
+set cursorline
+set scrolloff=3
+
+"" Tab settings
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 
-"set list
+"" set list
 if has('multi_byte') && &encoding ==# 'utf-8'
 	let &listchars = 'eol:␤,tab:› ,trail:·,precedes:…,extends:…'
 else
 	let &listchars = 'tab:> ,extends:>,precedes:<,nbsp:.'
 endif
 
-set scrolloff=3
 set autoindent
-set showmode
 set showcmd
 set hidden
 set wildmenu
 set wildmode=list:longest
-set cursorline
-set ttyfast
-set ruler
-set backspace=indent,eol,start
 
 set laststatus=2
 set undofile
@@ -92,7 +93,7 @@ set undofile
 let mapleader=","
 imap jj <Esc>
 
-" Searching {{{
+"" Searching
 nnoremap / /\v
 vnoremap / /\v
 set ignorecase
@@ -104,19 +105,17 @@ set hlsearch
 nnoremap <leader><space> :noh<cr>
 nnoremap <tab> %
 vnoremap <tab> %
-" }}}
 
-" wrapping long lines {{{
+"" wrapping long lines
 set wrap
 set textwidth=79
 set formatoptions=qrn1
-" }}}
 
 " autosave on tab change {{{
 "autocmd FocusLost * wa
 " }}}
 
-" If buffer modified, update any 'Last modified: ' in the first 20 lines.
+"" If buffer modified, update any 'Last modified: ' in the first 20 lines.
 " 'Last modified: ' can have up to 10 characters before (they are retained).
 " Restores cursor and window position using save_cursor variable.
 function! LastModified()
@@ -131,6 +130,7 @@ function! LastModified()
 endfun
 autocmd BufWritePre * call LastModified()
 
+"" Backup Settings
 set backup                  " Backups are nice
 if has('persistent_undo')
 	set undofile                " So is persistent undo
@@ -142,14 +142,13 @@ set undodir=~/.cache/vim/undo//
 set backupdir=~/.cache/vim/backup//
 set directory=~/.cache/vim/swap//
 
-"
-" Calendar {{{1
+
+" Calendar
 let g:calendar_number_of_month = 6
 let g:calendar_options = 'fdc=0 nonu nornu'
 
 
-"
-" vimwiki {{{1
+"" vimwiki
 let g:vimwiki_list = [{'path': '~/vimwiki/', 'auto_tags': 1}]
 let g:tagbar_type_vimwiki = {
 			\   'ctagstype':'vimwiki'
@@ -181,10 +180,13 @@ endfunction
 
 nnoremap <leader>t<leader>d :-1read $HOME/vimwiki/templates/diary.tmpl.wiki<C-R>
 
-" Hard mode
+
+
+
+"" Plugin Hard mode
 nnoremap <leader>h <Esc>:call HardTimeToggle()<CR>
 
-" matze/vim-move
+"" Plugin matze/vim-move
 let g:move_key_modifier = 'C'
 
 "
@@ -195,3 +197,81 @@ let g:move_key_modifier = 'C'
 " abbreviations
 " 
 iab <expr> #d strftime('%F')
+
+
+
+"" WSL yank support
+let s:clip = '/mnt/c/Windows/System32/clip.exe'  " default location
+if executable(s:clip)
+    augroup WSLYank
+        autocmd!
+        autocmd TextYankPost * call system('echo '.shellescape(join(v:event.regcontents, "\<CR>")).' | '.s:clip)
+    augroup END
+end
+
+
+
+
+
+
+""""""""""""""""""""""""
+"  THIS IS A CATEGORY  "
+""""""""""""""""""""""""
+"" Autofolding .vimrc
+" see http://vimcasts.org/episodes/writing-a-custom-fold-expression/
+""" defines a foldlevel for each line of code
+function! VimFolds(lnum)
+  let s:thisline = getline(a:lnum)
+  if match(s:thisline, '^"" ') >= 0
+    return '>2'
+  endif
+  if match(s:thisline, '^""" ') >= 0
+    return '>3'
+  endif
+  let s:two_following_lines = 0
+  if line(a:lnum) + 2 <= line('$')
+    let s:line_1_after = getline(a:lnum+1)
+    let s:line_2_after = getline(a:lnum+2)
+    let s:two_following_lines = 1
+  endif
+  if !s:two_following_lines
+      return '='
+    endif
+  else
+    if (match(s:thisline, '^"""""') >= 0) &&
+       \ (match(s:line_1_after, '^"  ') >= 0) &&
+       \ (match(s:line_2_after, '^""""') >= 0)
+      return '>1'
+    else
+      return '='
+    endif
+  endif
+endfunction
+
+""" defines a foldtext
+function! VimFoldText()
+  " handle special case of normal comment first
+  let s:info = '('.string(v:foldend-v:foldstart).' l)'
+  if v:foldlevel == 1
+    let s:line = ' ◇ '.getline(v:foldstart+1)[3:-2]
+  elseif v:foldlevel == 2
+    let s:line = '   ●  '.getline(v:foldstart)[3:]
+  elseif v:foldlevel == 3
+    let s:line = '     ▪ '.getline(v:foldstart)[4:]
+  endif
+  if strwidth(s:line) > 80 - len(s:info) - 3
+    return s:line[:79-len(s:info)-3+len(s:line)-strwidth(s:line)].'...'.s:info
+  else
+    return s:line.repeat(' ', 80 - strwidth(s:line) - len(s:info)).s:info
+  endif
+endfunction
+
+""" set foldsettings automatically for vim files
+augroup fold_vimrc
+  autocmd!
+  autocmd FileType vim 
+                   \ setlocal foldmethod=expr |
+                   \ setlocal foldexpr=VimFolds(v:lnum) |
+                   \ setlocal foldtext=VimFoldText() |
+     "              \ set foldcolumn=2 foldminlines=2
+augroup END
