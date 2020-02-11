@@ -19,11 +19,13 @@ endif
 "
 " Plugin loading {{{2
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
-call plug#begin(s:ndt_home."/plugged")
+call plug#begin()
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
+Plug 'junegunn/vim-easy-align'
+Plug 'matze/vim-move'
 
 Plug 'majutsushi/tagbar'
 Plug 'mbbill/undotree'
@@ -179,8 +181,17 @@ endfunction
 
 nnoremap <leader>t<leader>d :-1read $HOME/vimwiki/templates/diary.tmpl.wiki<C-R>
 
-iab <expr> #d strftime('%F')
-
 " Hard mode
 nnoremap <leader>h <Esc>:call HardTimeToggle()<CR>
 
+" matze/vim-move
+let g:move_key_modifier = 'C'
+
+"
+" -----------------------------------------------------------------------
+"
+
+"
+" abbreviations
+" 
+iab <expr> #d strftime('%F')
