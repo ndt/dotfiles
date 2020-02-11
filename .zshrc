@@ -49,4 +49,4 @@ source ~/.zsh/dircolors
 
 neofetch
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.zsh/fzf.zsh ] && source ~/.zsh/fzf.zsh

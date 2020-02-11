@@ -5,14 +5,15 @@ yadm remote set-url origin "git@github.com:ndt/dotfiles.git"
 
 echo "Checking for ZSH Antigen"
 if [ ! -d "~/.zsh/" ]; then
-	mkdir ~/.zsh
-	if [ ! -f "~/.zsh/antigen.zsh" ]; then
-		echo "Installing Antigen"
-		curl -L git.io/antigen > ~/.zsh/antigen.zsh
-	fi
+   mkdir ~/.zsh
+   if [ ! -f "~/.zsh/antigen.zsh" ]; then
+      echo "Installing Antigen"
+      curl -L git.io/antigen > ~/.zsh/antigen.zsh
+   fi
 fi
 
 if command -v vim >/dev/null 2>&1; then
-  echo "Bootstraping Vim"
-  vim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
+   mkdir -p .cache/vim/{backup,swap,undo}
+   echo "Bootstraping Vim"
+   vim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
 fi
