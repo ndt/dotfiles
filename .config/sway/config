@@ -1,5 +1,5 @@
 input * xkb_layout "de"
-output '*' scale 1.25
+output '*' scale 1.0
 default_border pixel 10
 hide_edge_borders smart
 
@@ -213,7 +213,7 @@ bar {
 
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
-    status_command i3status
+    status_command while date +'%Y-%m-%d %l:%M:%S %p'; do sleep 1; done
 
     colors {
         statusline #ffffff

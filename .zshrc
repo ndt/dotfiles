@@ -52,3 +52,5 @@ neofetch
 [ -f ~/.zsh/fzf.zsh ] && source ~/.zsh/fzf.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+MC_SKIN=$HOME/.config/mc/skin_solarized.ini mc

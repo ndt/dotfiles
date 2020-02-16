@@ -28,7 +28,7 @@ data.location=~/.task/data
 #include /usr/share/task/rc/solarized-dark-256.theme
 #include /usr/share/task/rc/solarized-light-256.theme
 #include /usr/share/task/rc/no-color.theme
-include ~/.taskrc-theme
+include ~/.task/theme
 
 uda.priority.values=H,M,,L
 uda.realm.type=string
@@ -56,8 +56,5 @@ report.nxt.description=Most urgent tasks
 report.nxt.filter=status:pending limit:page
 report.nxt.labels=ID,Active,Age,Deps,P,R,Project,Tag,Recur,S,Due,Until,Description,Urg
 report.nxt.sort=project+/,urgency-
-
-
-include ~/.task/solarized-dark-256.theme
 
 color=on
