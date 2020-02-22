@@ -47,10 +47,13 @@ source ~/.zsh/options
 source ~/.zsh/aliases
 source ~/.zsh/dircolors
 
+if [[ -f ~/.zsh/local ]]; then
+	source ~/.zsh/local
+fi
+
 neofetch
 
 [ -f ~/.zsh/fzf.zsh ] && source ~/.zsh/fzf.zsh
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-MC_SKIN=$HOME/.config/mc/skin_solarized.ini
+[ -f ~/.config/mc/skin_solarized.ini ] && export MC_SKIN="$HOME/.config/mc/skin_solarized.ini"

@@ -37,24 +37,13 @@ Plug 'vimwiki/vimwiki'
 Plug 'pearofducks/ansible-vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
-Plug 'takac/vim-hardtime'
+"Plug 'takac/vim-hardtime'
 call plug#end()
 
 
 """"""""""""""""
 "  Appearance  "
 """"""""""""""""
-"" Color Scheme
-set termguicolors
-set background=dark
-let g:airline_solarized_bg='dark'
-colorscheme solarized8
-let g:airline_theme='solarized'
-
-highlight clear Normal
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-
 "" left editor edge
 set number
 set relativenumber
@@ -149,7 +138,9 @@ let g:calendar_options = 'fdc=0 nonu nornu'
 
 
 "" vimwiki
-let g:vimwiki_list = [{'path': '~/vimwiki/', 'auto_tags': 1}]
+let g:vimwiki_list = [{'path': '~/vimwiki/', 'auto_tags': 1, 'maxhi': 1, 'auto_diary_index': 1}]
+let g:vimwiki_folding = 'list'
+let g:vimwiki_hl_headers = 1
 let g:tagbar_type_vimwiki = {
 			\   'ctagstype':'vimwiki'
 			\ , 'kinds':['h:header']
@@ -275,3 +266,20 @@ augroup fold_vimrc
 				\ setlocal foldtext=VimFoldText() |
 	"              \ set foldcolumn=2 foldminlines=2
 augroup END
+
+
+""""""""""""""""
+"  Appearance  "
+""""""""""""""""
+"" Color Scheme
+set termguicolors
+set background=dark
+let g:airline_solarized_bg='dark'
+colorscheme solarized8
+let g:airline_theme='solarized'
+
+"highlight clear Normal
+highlight Normal guibg=NONE ctermbg=NONE
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+
