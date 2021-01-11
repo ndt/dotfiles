@@ -44,6 +44,8 @@ call plug#end()
 """"""""""""""""
 "  Appearance  "
 """"""""""""""""
+set encoding=UTF-8
+
 "" left editor edge
 set number
 set relativenumber
@@ -113,7 +115,7 @@ function! LastModified()
 		let n = min([20, line("$")])
 		keepjumps exe '1,' . n . 's#^\(.\{,10}:Datum:    \).*#\1' .
 					\ strftime('%Y-%m-%d %H:%M') . '#e'
-		call histdel('search', -1)
+	call histdel('search', -1)
 		call setpos('.', save_cursor)
 	endif
 endfun
@@ -127,9 +129,16 @@ if has('persistent_undo')
 	set undoreload=10000        " Maximum number of lines to save for undo on a buffer reload
 endif
 
-set undodir=~/.cache/vim/undo//
-set backupdir=~/.cache/vim/backup//
-set directory=~/.cache/vim/swap//
+
+for dir in [$HOME."/.cache/vim/undo//", $HOME."/.cache/vim/backup//", $HOME."/.cache/vim/swap//"]
+	if !isdirectory(dir)
+		call mkdir(dir, "p")
+	endif
+endfor
+
+set undodir=~/.cache/vim/undo//,/tmp
+set backupdir=~/.cache/vim/backup//,/tmp
+set directory=~/.cache/vim/swap//,/tmp
 
 
 " Calendar
@@ -138,6 +147,17 @@ let g:calendar_options = 'fdc=0 nonu nornu'
 
 
 "" vimwiki
+let wiki_1 = {}
+let wiki_1.path = '~/vimwiki/'
+let wiki_1.auto_tags = 1
+let wiki_1.maxhi = 1
+let wiki_1.auto_diary_index = 1
+
+let wiki_2 = {}
+let wiki_2.path = '~/project_docs/'
+let wiki_2.index = 'main'
+
+let g:vimwiki_list = [wiki_1, wiki_2]
 let g:vimwiki_list = [{'path': '~/vimwiki/', 'auto_tags': 1, 'maxhi': 1, 'auto_diary_index': 1}]
 let g:vimwiki_folding = 'list'
 let g:vimwiki_hl_headers = 1
@@ -179,6 +199,9 @@ nnoremap <leader>h <Esc>:call HardTimeToggle()<CR>
 
 "" Plugin matze/vim-move
 let g:move_key_modifier = 'C'
+
+"" Plugin tagbar
+nmap <F8> :TagbarToggle<CR>
 
 "
 " -----------------------------------------------------------------------
@@ -282,4 +305,16 @@ let g:airline_theme='solarized'
 highlight Normal guibg=NONE ctermbg=NONE
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
+
+
+" NERDtree like config for Netrw
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_winsize = 25
+let g:netrw_altv = 1
+"augroup ProjectDrawer
+"	autocmd!
+"	autocmd VimEnter * :Vexplore
+"augroup END
 
