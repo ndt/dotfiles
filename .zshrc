@@ -40,9 +40,16 @@ source ~/.zsh/dircolors
 export SSH_AUTH_SOCK=$HOME/.ssh/agent.sock
 ss -a | grep -q $SSH_AUTH_SOCK
 if [ $? -ne 0 ]; then
-        rm -f $SSH_AUTH_SOCK
-        (setsid nohup socat UNIX-LISTEN:$SSH_AUTH_SOCK,fork EXEC:$HOME/.ssh/wsl2-ssh-pageant.exe >/dev/null 2>&1 &)
+	rm -f $SSH_AUTH_SOCK
+	(setsid nohup socat UNIX-LISTEN:$SSH_AUTH_SOCK,fork EXEC:$HOME/.ssh/wsl2-ssh-pageant.exe >/dev/null 2>&1 &)
 fi
 
-neofetch
+if ! command -v neofetch &> /dev/null
+then
+	echo "neofetch could not be found. Install via e.g. 'apt install neofetch'"
+	exit
+else
+	neofetch
+fi
 
+PATH="$HOME/.local/bin/:$PATH"
