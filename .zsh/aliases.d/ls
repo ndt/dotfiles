@@ -1,4 +1,10 @@
-alias lsbig='ls -Slh | head'
-alias lssmall='ls -Slhr | head'
-alias lsnew='ls -tlh | head'
-alias lsold='ls -tlhr | head'
+#!/bin/zsh
+
+alias ls='ls --color=tty --group-directories-first'
+alias ll='ls -lh'
+alias lsbig='ls -lhS | head'
+alias lssmall='ls -lhSr | head'
+alias lsnew='ls -lht | head'
+alias lsold='ls -lhtr | head'
+
+alias ldot='ls -ld .*'
