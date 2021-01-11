@@ -37,11 +37,14 @@ source ~/.zsh/dircolors
 [ -f ~/.zsh/fzf.zsh ] && source ~/.zsh/fzf.zsh
 [ -f ~/.config/mc/skin_solarized.ini ] && export MC_SKIN="$HOME/.config/mc/skin_solarized.ini"
 
-export SSH_AUTH_SOCK=$HOME/.ssh/agent.sock
-ss -a | grep -q $SSH_AUTH_SOCK
-if [ $? -ne 0 ]; then
-	rm -f $SSH_AUTH_SOCK
-	(setsid nohup socat UNIX-LISTEN:$SSH_AUTH_SOCK,fork EXEC:$HOME/.ssh/wsl2-ssh-pageant.exe >/dev/null 2>&1 &)
+# In WSL2 make pageant accessable
+if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
+	export SSH_AUTH_SOCK=$HOME/.ssh/agent.sock
+	ss -a | grep -q $SSH_AUTH_SOCK
+	if [ $? -ne 0 ]; then
+		rm -f $SSH_AUTH_SOCK
+		(setsid nohup socat UNIX-LISTEN:$SSH_AUTH_SOCK,fork EXEC:$HOME/.ssh/wsl2-ssh-pageant.exe >/dev/null 2>&1 &)
+	fi
 fi
 
 if ! command -v neofetch &> /dev/null
