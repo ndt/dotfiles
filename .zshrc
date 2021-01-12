@@ -22,6 +22,8 @@ antigen bundle 'endaaman/lxd-completion-zsh'
 
 # Syntax highlighting bundle.
 antigen bundle 'zsh-users/zsh-syntax-highlighting'
+antigen bundle "zsh-users/zsh-history-substring-search"
+
 
 # Load the theme.
 antigen theme gentoo
@@ -29,9 +31,10 @@ antigen theme gentoo
 # Tell Antigen that you're done.
 antigen apply
 
-source ~/.zsh/options
-source ~/.zsh/aliases
-source ~/.zsh/dircolors
+source ~/.zsh/history.zsh
+source ~/.zsh/options.zsh
+source ~/.zsh/aliases.zsh
+source ~/.zsh/dircolors.zsh
 
 [ -f ~/.zsh/local ] && source ~/.zsh/local
 [ -f ~/.zsh/fzf.zsh ] && source ~/.zsh/fzf.zsh
@@ -55,4 +58,4 @@ else
 	neofetch
 fi
 
-PATH="$HOME/.local/bin/:$PATH"
+export PATH="$PATH:$HOME/.local/bin/"
