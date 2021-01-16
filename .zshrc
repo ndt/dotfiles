@@ -58,4 +58,4 @@ else
 	neofetch
 fi
 
-export PATH="$PATH:$HOME/.local/bin/"
+export PATH="$PATH:$HOME/.local/bin/:$HOME/go/bin"
