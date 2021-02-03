@@ -41,6 +41,10 @@ source ~/.zsh/dircolors.zsh
 [ -f ~/.config/mc/skin_solarized.ini ] && export MC_SKIN="$HOME/.config/mc/skin_solarized.ini"
 
 # In WSL2 make pageant accessable
+if ! command -v socat &> /dev/null
+then
+	echo "Install socat!"
+fi
 if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
 	export SSH_AUTH_SOCK=$HOME/.ssh/agent.sock
 	ss -a | grep -q $SSH_AUTH_SOCK
