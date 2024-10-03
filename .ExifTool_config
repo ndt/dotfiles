@@ -1,0 +1,20 @@
+%Image::ExifTool::UserDefined = (
+    'Image::ExifTool::Composite' => {
+        MyModel => {
+            Require => 'Model',
+            # translate spaces to underscores
+            ValueConv => '$val =~ s{Canon }{}; $val =~ tr/ /-/; $val',
+        },
+        DirTree => {
+            Require => 'Directory',
+            ValueConv => q{
+                # split directory into components
+                my @parts = split '/', $val;
+                # remove empty first component (if "/" was the first character)
+                shift @parts if @parts and not $parts[0];
+                return \@parts;
+            },
+        },                                                                                                         
+    },
+);
+1;  #end
